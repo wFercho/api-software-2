@@ -11,11 +11,17 @@ const utils_2 = require("./utils");
 const app = (0, express_1.default)();
 app.use(express_1.default.text());
 app.use(express_1.default.json());
-const HOST_ALLOWED = process.env.HOST_ALLOWED;
-if (!HOST_ALLOWED) {
-    console.log("NO HAY HOST ESPECIFICADO PARA PERMITIR SU ENTRADA");
+let HOSTS_ALLOWED = process.env.HOSTS_ALLOWED;
+if (!HOSTS_ALLOWED) {
+    console.log("NO HAY HOSTS ESPECIFICADOS PARA PERMITIR SU ENTRADA");
 }
-app.use((0, cors_1.default)({ origin: HOST_ALLOWED }));
+if (HOSTS_ALLOWED) {
+    console.log("NO HAY HOSTS ESPECIFICADOS PARA PERMITIR SU ENTRADA");
+    if ((HOSTS_ALLOWED === null || HOSTS_ALLOWED === void 0 ? void 0 : HOSTS_ALLOWED.length) > 1) {
+        HOSTS_ALLOWED = HOSTS_ALLOWED === null || HOSTS_ALLOWED === void 0 ? void 0 : HOSTS_ALLOWED.split(" ");
+    }
+}
+app.use((0, cors_1.default)({ origin: HOSTS_ALLOWED }));
 const TEXTO_URL = `${utils_2.BASE_API_URL}/texto`;
 app.get('/', (req, res) => {
     res.send("<h1>API Taller Software 2</h1>");

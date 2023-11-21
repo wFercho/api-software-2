@@ -8,13 +8,23 @@ const app = express();
 app.use(express.text());   
 app.use(express.json());
 
-const HOST_ALLOWED = process.env.HOST_ALLOWED
+let HOSTS_ALLOWED:string | string[] | undefined = process.env.HOSTS_ALLOWED
 
-if(!HOST_ALLOWED) {
-   console.log("NO HAY HOST ESPECIFICADO PARA PERMITIR SU ENTRADA");
+if(!HOSTS_ALLOWED) {
+   console.log("NO HAY HOSTS ESPECIFICADOS PARA PERMITIR SU ENTRADA");
    
 }
-app.use(cors({ origin: HOST_ALLOWED}))
+
+if(HOSTS_ALLOWED) {
+   console.log("NO HAY HOSTS ESPECIFICADOS PARA PERMITIR SU ENTRADA");
+   
+   if(HOSTS_ALLOWED?.length > 1){
+      HOSTS_ALLOWED = HOSTS_ALLOWED?.split(" ")
+   }
+}
+
+
+app.use(cors({ origin: HOSTS_ALLOWED}))
 
 const TEXTO_URL = `${BASE_API_URL}/texto`
 
