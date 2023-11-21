@@ -8,8 +8,13 @@ const app = express();
 app.use(express.text());   
 app.use(express.json());
 
+const HOST_ALLOWED = process.env.HOST_ALLOWED
 
-app.use(cors({ origin: "http://localhost:3000"}))
+if(!HOST_ALLOWED) {
+   console.log("NO HAY HOST ESPECIFICADO PARA PERMITIR SU ENTRADA");
+   
+}
+app.use(cors({ origin: HOST_ALLOWED}))
 
 const TEXTO_URL = `${BASE_API_URL}/texto`
 
